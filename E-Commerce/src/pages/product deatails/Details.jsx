@@ -1,0 +1,138 @@
+import axios from "axios"
+import { useEffect , useState } from "react"
+import { useParams } from "react-router-dom"
+
+import CardRating from "../home/CardRating";
+import CardSale from "../home/CardSale";
+
+import Preview from "./Preview";
+
+function Details(){
+    let {id} =useParams(); //get id from url
+    let [details , setDetails  ] = useState({});
+    let [check , setCheck] =useState([false , false , false]);
+    let [size , setSize] = useState([false , false , false ,false]);
+    let [counter , setCounter] = useState(1);
+
+    
+    let colors  =['#4F4631','#314F4A','#31344F'];
+    let sizes = ['Small' , 'Medim' , 'Large' , 'X-Large'];
+    const [selectedSize , setSelectedSize] = useState('');
+    const [selectedColor, setSelectedColor] = useState('');
+
+    let handleCheck =(index) => {
+        setSelectedColor(colors[index])
+        let match= check.map((_ ,i)=> i === index);
+        setCheck(match);
+    }
+    let handleSize = (index) => {
+        setSelectedSize(sizes[index]);
+        let matched = size.map((_ , i) => i === index);
+        setSize(matched);
+    }
+    let increase = () => {
+        setCounter((preValue)=> (
+            preValue +1
+        ))
+    }
+
+    let decrease = () => {
+        (counter===1? null:
+            setCounter((preValue)=> (
+                preValue -1
+            ))
+        )
+    }
+
+    useEffect(() =>{
+    fetchData()
+    }, [id]);
+
+    let   fetchData =async () => {
+        const response =await axios.get(`http://localhost:8080/product/${id}`);
+        setDetails(response.data)
+    }
+    let men =details.title && details.title.toLowerCase().includes('men');
+
+    let [cart , setCart] = useState(()=>{
+        const savedCart = localStorage.getItem('cart')
+        return savedCart ? (JSON.parse(savedCart)) : [];
+    })
+    useEffect(() => {
+        localStorage.setItem('cart' , JSON.stringify(cart));
+    } , [cart])
+
+
+
+    let handleAddToCart = () => {
+        const newItem = {
+            id : details._id,
+            title: details.title,
+            image:details.image,
+            price : details.newPrice ? details.newPrice : details.oldPrice,
+            selectedSize : selectedSize,
+            selectedColor:selectedColor,
+            count : counter,
+        };
+        setCart((preValue)=>{
+            let duplicate = preValue.find(item => item.id === details._id);
+            if(duplicate){
+                return preValue.map(item => 
+                    item.id === details._id ? {...item , count: item.count + counter} : item
+                );
+            }else{
+            return [...preValue, newItem];
+            }
+    });
+    };
+    console.log(cart)
+
+    return(<>
+        <div className="md:h-[550px] md:flex justify-center  w-full md:w-[ful]md:w-[50%] ">
+            <div className="p-6 md:p-auto self-center md:w-[50%] md:h-[530px] "><img src={details.image} className="w-full md:h-full rounded-2xl border border-slate-400 p-6 md:p-0 " alt="image" /></div>
+            <div className="px-6 md:p-6 md:flex md:flex-col justify-center ">
+                <div className="flex gap-2 flex-col   ">
+                    <h1 className="text-2xl font-bold" >{details.title}</h1>
+                    <div className={"flex items-center h-[19px]"}><CardRating rating={details.rating}  />{details.rating}<span className="opacity-75">/5</span></div>
+                    <CardSale sale ={[details.newPrice , details.oldPrice] } />
+                    <p>{details.description}</p>
+                </div>
+                <hr className=" my-4 "/>
+                <div>
+                    <p>Select Colors</p>
+                    <div className="flex gap-2 py-2">
+                        {colors.map((color ,index) =>(
+                        <i key={index} onClick={() => handleCheck(index)} 
+                        style={{background:color}}
+                        className={`z-auto w-[40px] text-center leading-[40px] h-[40px] rounded-full  ${check[index] ?'fa-solid fa-check text-white':null}`}>
+                        </i>    
+                        ))}
+                    </div>
+                </div>
+                <hr className=" my-4 "/>
+                <div>
+                <p>Choose Size</p>
+                    <div className="flex  gap-1 py-2">  
+                        {sizes.map((sizeLabel , index) =>(
+                            <button key={index} onClick={() => handleSize(index)} className={`py-2 px-4  rounded-full     ${size[index]   ? 'bg-black text-white' :'bg-slate-200 opacity-50' } `}>{sizeLabel}</button>
+                        ))} 
+                    </div>
+                </div>
+                <hr className=" my-4 "/>
+                <div className="flex gap-2 pb-6 py-2">
+                    <div className="flex w-[30%] relative">
+                    <i onClick={decrease} className=" absolute top-3 left-2 cursor-pointer fa-solid fa-minus "></i>
+                        <p className="text-center bg-slate-200 py-2 w-full rounded-full">{counter}</p>
+                    <i onClick={increase} className=" absolute top-3 right-2 fa-solid fa-plus"></i>
+                    </div >
+                    <button onClick={handleAddToCart} className="w-[70%] bg-black py-2 px-8 text-white rounded-full">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+        <Preview id={id}  reviews={details?.reviews || []}  fetchReviews={fetchData} men={men} />
+
+        </>
+    )
+}
+
+export default  Details
