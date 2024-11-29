@@ -1,6 +1,8 @@
-import axios from "axios"
-import { useEffect , useState } from "react"
-import { useParams } from "react-router-dom"
+import axios from "axios";
+import { useEffect , useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import CardRating from "../home/CardRating";
 import CardSale from "../home/CardSale";
@@ -15,10 +17,11 @@ function Details(){
     let [counter , setCounter] = useState(1);
 
     
-    let colors  =['#4F4631','#314F4A','#31344F'];
+    let colors  =['black','brown','gray'];
     let sizes = ['Small' , 'Medim' , 'Large' , 'X-Large'];
     const [selectedSize , setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
+    const [error , setError] = useState(false);
 
     let handleCheck =(index) => {
         setSelectedColor(colors[index])
@@ -49,7 +52,7 @@ function Details(){
     }, [id]);
 
     let   fetchData =async () => {
-        const response =await axios.get(`http://localhost:8080/product/${id}`);
+        const response =await axios.get(`http://localhost:8080/product/detail/${id}`);
         setDetails(response.data)
     }
     let men =details.title && details.title.toLowerCase().includes('men');
@@ -62,9 +65,14 @@ function Details(){
         localStorage.setItem('cart' , JSON.stringify(cart));
     } , [cart])
 
-
-
     let handleAddToCart = () => {
+        if(!selectedColor || !selectedSize){
+            toast.error("tou may not select size  or color" )
+            setError(true);
+            return;
+        }
+        setError(false);
+        toast.success("product saved to cart")
         const newItem = {
             id : details._id,
             title: details.title,
@@ -74,6 +82,10 @@ function Details(){
             selectedColor:selectedColor,
             count : counter,
         };
+        setCheck([false, false, false])
+        setSize([false, false, false, false])
+        setSelectedColor('')
+        setSelectedSize('')
         setCart((preValue)=>{
             let duplicate = preValue.find(item => item.id === details._id);
             if(duplicate){
@@ -85,10 +97,10 @@ function Details(){
             }
     });
     };
-    console.log(cart)
 
     return(<>
         <div className="md:h-[550px] md:flex justify-center  w-full md:w-[ful]md:w-[50%] ">
+            <ToastContainer position="top-center"  />
             <div className="p-6 md:p-auto self-center md:w-[50%] md:h-[530px] "><img src={details.image} className="w-full md:h-full rounded-2xl border border-slate-400 p-6 md:p-0 " alt="image" /></div>
             <div className="px-6 md:p-6 md:flex md:flex-col justify-center ">
                 <div className="flex gap-2 flex-col   ">
@@ -108,15 +120,17 @@ function Details(){
                         </i>    
                         ))}
                     </div>
+                    {error ? (<p className="text-[16px] font-semibold text-[red] bg-[#fcd2d2] h-9 leading-[36px] pl-4 rounded-[10px]">Please Select Color</p>): null}
                 </div>
                 <hr className=" my-4 "/>
                 <div>
                 <p>Choose Size</p>
-                    <div className="flex  gap-1 py-2">  
+                    <div className="flex   gap-1 py-2">  
                         {sizes.map((sizeLabel , index) =>(
                             <button key={index} onClick={() => handleSize(index)} className={`py-2 px-4  rounded-full     ${size[index]   ? 'bg-black text-white' :'bg-slate-200 opacity-50' } `}>{sizeLabel}</button>
                         ))} 
                     </div>
+                {error ? (<p className="text-[16px] font-semibold text-[red] bg-[#fcd2d2] h-9 leading-[36px] pl-4 rounded-[10px]">Please Select Size</p>): null}
                 </div>
                 <hr className=" my-4 "/>
                 <div className="flex gap-2 pb-6 py-2">

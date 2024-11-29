@@ -3,6 +3,7 @@ const cors =require('cors');
 const mongoose = require('mongoose');
 const Product = require('./models/product.js');
 const Review = require('./models/review.js');
+const Cart = require('./models/cart.js');
 
 const app = express();
 
@@ -21,7 +22,7 @@ app.get('/products' , async(req , res) => {
   res.json(products)
 })
 
-app.get('/product/:id' , async(req , res) => {
+app.get('/product/detail/:id' , async(req , res) => {
   const productId = req.params.id;
   const details = await Product.findById(productId).populate('reviews');
   res.json(details) 

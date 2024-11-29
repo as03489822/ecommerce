@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify";
 
 export default function Cart(){
     const [cart, setCart] = useState([]);
@@ -15,27 +16,25 @@ export default function Cart(){
     }
 
     const removeProduct =(id) => {
-        setCart(
-            cart.filter(item => item.id !== id )
-        )
-        console.log(cart.length)
+     let data =   cart.filter((item)=>item.id === id)
+     data.map((da)=>{
+         localStorage.removeItem('cart',da.id ===id)
+     })
+    toast.success("data deleted successfully")
+    window.location.reload();
+
     }
 
     useEffect(()=>{
-        const locallySaved = localStorage.getItem('cart')
+        const locallySaved = localStorage.getItem('cart');
         if(locallySaved){
         setCart(JSON.parse(locallySaved))
         }else{
             setCart([])
         }
-    } , [])
-
-    //     useEffect(()=> {
-    //     localStorage.setItem('cart',  JSON.stringify(cart))
-    // } ,[cart])
-
+    } , []);
     let Subtotal = cart.reduce((sum , item) => sum + (item.price*item.count), 0);
-    let discount = Subtotal/100 *20;
+    let discount = Math.round(Subtotal/100 *20);
     let total = Subtotal - discount ;
     let cartlength = cart.length===0;
 
