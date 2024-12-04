@@ -51,51 +51,47 @@ function Details(){
     fetchData()
     }, [id]);
 
-    let   fetchData =async () => {
+    let fetchData =async () => {
         const response =await axios.get(`http://localhost:8080/product/detail/${id}`);
         setDetails(response.data)
     }
     let men =details.title && details.title.toLowerCase().includes('men');
 
-    let [cart , setCart] = useState(()=>{
-        const savedCart = localStorage.getItem('cart')
-        return savedCart ? (JSON.parse(savedCart)) : [];
-    })
-    useEffect(() => {
-        localStorage.setItem('cart' , JSON.stringify(cart));
-    } , [cart])
+    // let [cart , setCart] = useState(()=>{
+    //     const savedCart = localStorage.getItem('cart')
+    //     return savedCart ? (JSON.parse(savedCart)) : [];
+    // })
+    // useEffect(() => {
+    //     localStorage.setItem('cart' , JSON.stringify(cart));
+    // } , [cart])
 
-    let handleAddToCart = () => {
-        if(!selectedColor || !selectedSize){
-            toast.error("tou may not select size  or color" )
-            setError(true);
-            return;
-        }
-        setError(false);
-        toast.success("product saved to cart")
-        const newItem = {
-            id : details._id,
-            title: details.title,
-            image:details.image,
-            price : details.newPrice ? details.newPrice : details.oldPrice,
-            selectedSize : selectedSize,
-            selectedColor:selectedColor,
-            count : counter,
-        };
-        setCheck([false, false, false])
-        setSize([false, false, false, false])
-        setSelectedColor('')
-        setSelectedSize('')
-        setCart((preValue)=>{
-            let duplicate = preValue.find(item => item.id === details._id);
-            if(duplicate){
-                return preValue.map(item => 
-                    item.id === details._id ? {...item , count: item.count + counter} : item
-                );
-            }else{
-            return [...preValue, newItem];
+    let handleAddToCart =async () => {
+        try{
+            if(!selectedColor || !selectedSize){
+                toast.error("tou may not select size  or color" )
+                setError(true);
+                return;
             }
-    });
+            setError(false);
+            const newItem = {
+                title: details.title,
+                image:details.image,
+                price : details.newPrice ? details.newPrice : details.oldPrice,
+                selectedSize : selectedSize,
+                selectedColor:selectedColor,
+                count : counter,
+            };
+            let response =  await axios.post(`http://localhost:8080/cart`, newItem , { withCredentials: true })
+            console.log(response.data)
+            toast.success("product saved to cart")
+            setCheck([false, false, false])
+            setSize([false, false, false, false])
+            setSelectedColor('')
+            setSelectedSize('')
+        }catch(err){
+            toast.error(`${err.response.data.message}`)
+            console.log(err.response.data.message)
+        }
     };
 
     return(<>

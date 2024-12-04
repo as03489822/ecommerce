@@ -8,6 +8,8 @@ import OnSale from "./pages/OnSale";
 import Footer from "./footer/footer";
 import Details from "./pages/product deatails/Details"
 import Cart from "./pages/Cart/Cart";
+import SignUp from "./pages/signup/SignUp"
+import Login from "./pages/login/login";
 function App() {
   return (
     <>
@@ -20,6 +22,8 @@ function App() {
     <Route path='/on sale' element={<OnSale />} />
     <Route path='/product/detail/:id' element={<Details />} />
     <Route path="/cart" element={<Cart />} />
+    <Route path="/signup" element={ <SignUp /> } />
+    <Route path="/login" element={<Login/>} />
     </Routes>
     <Footer />
     </>
