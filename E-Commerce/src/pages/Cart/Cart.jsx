@@ -23,7 +23,7 @@ export default function Cart(){
     }
 
     const removeProduct =async (id) => {
-        let response = await axios.delete(`http://localhost:8080/cart/${id}`);
+        let response = await axios.delete(`https://ecommerce-rouge-eight.vercel.app/${id}`);
         let data =cart.filter((_ , crt) => crt.id === id);
         setCart(data)
         console.log(response)
@@ -33,7 +33,7 @@ export default function Cart(){
     useEffect(()=>{
         async function fetchData(){
             try{
-                const response =await axios.get("http://localhost:8080/cart" ,{ withCredentials: true }) 
+                const response =await axios.get("https://ecommerce-rouge-eight.vercel.app/cart" ,{ withCredentials: true }) 
                 if(response){
                     setCart(response.data)
                 }else{

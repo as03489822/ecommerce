@@ -22,7 +22,7 @@ function Login( ) {
   const handleLogin = async(e)=>{
     try{
         e.preventDefault();
-        const response = await axios.post(`http://localhost:8080/login`, form , {withCredentials: true});   
+        const response = await axios.post(`https://ecommerce-rouge-eight.vercel.app/login`, form , {withCredentials: true});   
         localStorage.setItem('token', response.data.token);
         // setToken(token)
         setForm({

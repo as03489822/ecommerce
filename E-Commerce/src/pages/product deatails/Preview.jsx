@@ -29,7 +29,7 @@ export default function Preview({id, reviews, fetchReviews, men}){
     let handleSubmit =async(event)=>{
         event.preventDefault();
         try {
-            await axios.post(`http://localhost:8080/product/${id}/review`, formData);
+            await axios.post(`https://ecommerce-rouge-eight.vercel.app/review`, formData);
             setFormData({
                 username: '',
                 rating: '',
@@ -45,7 +45,7 @@ export default function Preview({id, reviews, fetchReviews, men}){
     }
 
     let  fetchData = async() => {    
-        const response =await axios.get('http://localhost:8080/products');
+        const response =await axios.get('https://ecommerce-rouge-eight.vercel.app/products');
          setProducts(response.data)
     }
     useEffect(() =>{
