@@ -5,11 +5,11 @@ import Shop from './pages/shop/shop'
 import Brand from "./pages/Brand";
 import NewArrivals from "./pages/NewArrivals";
 import OnSale from "./pages/OnSale";
-import Footer from "./footer/footer";
+import Footer from "./footer/Footer";
 import Details from "./pages/product deatails/Details"
 import Cart from "./pages/Cart/Cart";
 import SignUp from "./pages/signup/SignUp"
-import Login from "./pages/login/login";
+import Login from "./pages/login/Login";
 function App() {
   return (
     <>
