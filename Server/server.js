@@ -16,7 +16,7 @@ console.log()
 const app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173',  
+  origin: 'https://ecommerce-elz5.vercel.app/',  
   credentials: true  // Allow credentials (cookies, authorization headers)
 }));
 app.use(express.json());

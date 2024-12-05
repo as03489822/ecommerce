@@ -2,7 +2,7 @@ import { useState , useEffect} from 'react'
 import filter from '../../assets/svg/Frame.svg'
 import Products from './Products'
 import axios from 'axios'
-import SideBar from './sideBar'
+import SideBar from './SideBar'
 
 function Shop() {
     let [filterToggle , setFilteToggle] = useState(true);
