@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let orderSchema = new Schema({
-    // cart: Array,
+    cart: Array,
     contact: String,
     country: String,
     firstname: String,
@@ -12,6 +12,7 @@ let orderSchema = new Schema({
     postalcode: Number,
     number: Number,
     payment: String,
+    total: Number,
     user:{
         type: Schema.Types.ObjectId,
         ref: 'User'

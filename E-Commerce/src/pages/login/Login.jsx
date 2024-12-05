@@ -2,7 +2,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login( ) {
     let navigate = useNavigate();
     const [form, setForm] = useState({
       email:'',
@@ -17,13 +17,14 @@ function Login() {
       setError('')
       setType('')
   }
-
+ 
 
   const handleLogin = async(e)=>{
     try{
         e.preventDefault();
         const response = await axios.post(`http://localhost:8080/login`, form , {withCredentials: true});   
-        console.log(response.data.message)
+        localStorage.setItem('token', response.data.token);
+        // setToken(token)
         setForm({
             email:'',
             password:''
@@ -54,9 +55,9 @@ function Login() {
                 <input className="bg-slate-100 py-2 pl-2 rounded-full" type="Password" placeholder="password" onChange={handleOnChange} value={form.password} name="password" required />
                 <p className="rounded-full mt-1 text-[14px] bg-[#fcd2d2] pl-2 text-red font-semibold">{type === 'password'? error :null}</p>
             </div>
-            <button type="submit" className="mt-4 bg-black text-white py-2 px-4 rounded-full">Create Account</button>
+            <button type="submit" className="mt-4 bg-black text-white py-2 px-4 rounded-full">Log In</button>
         </form>
-        <div className="my-5"><span className=" text-12px text-[gray]">Don't have an account?</span><span onClick={navigateToSignup} className=" ml-2 cursor-pointer underline font-bold">Sign Up</span></div>
+        <div className="my-5"><span className=" text-12px text-[gray]">Don&apos;t have an account?</span><span onClick={navigateToSignup} className=" ml-2 cursor-pointer underline font-bold">Sign Up</span></div>
     </div>
     )
 }

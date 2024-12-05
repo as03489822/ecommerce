@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const cors =require('cors');
 const mongoose = require('mongoose');
@@ -11,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const authenticate = require('./authenticateToken.js');
 
-
+console.log()
 const app = express();
 
 app.use(cors({
@@ -22,12 +23,12 @@ app.use(express.json());
 app.use(cookieParser())
 
 main().then(console.log('database connected')).catch(err => console.log(err));
-
+ 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/E-Commerce');
+  await mongoose.connect(process.env.MONGODB_ATLAS);
 
 }
-
+ 
 app.get('/products'  , async(req , res) => {
   let products = await Product.find();
   res.json(products)
@@ -138,7 +139,7 @@ app.post('/login' , async(req , res)=>{
     sameSite: 'strict',
       maxAge: 3600000
     })
-    res.status(201).json({message: 'login successful'})
+    res.status(201).json({message: 'login successful' ,token})
 })
 
 app.post('/logout', async(req , res)=>{
@@ -153,19 +154,18 @@ app.post('/logout', async(req , res)=>{
 
 app.post('/order' ,authenticate ,async(req ,res) =>{
 try{
-  let {form} = req.body;
-  let user= await User.findById(req.user.id).populate('cartProducts');
-  
-  let newOrder = new Order(form);
+  let data = req.body;
+  let user= await User.findById(req.user.id);
+
+  let newOrder = new Order(data);
    newOrder.user = user;
   await newOrder.save();
-  console.log(newOrder)
+  // console.log(newOrder)
 
   user.cartProducts=[];
   await user.save();
-  console.log(user)
   
-  res.status(201).json({message : 'order placed' ,cart: user})}
+  res.status(201).json({message : 'order placed' })}
   catch(err){
   // res.status(401).json({message:'error'})
   console.log(err)

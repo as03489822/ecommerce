@@ -1,11 +1,12 @@
 import { useState } from "react"
 import axios from 'axios'
+import { useNavigate} from 'react-router-dom'
 
 function Address ({cart, total}){
-    // let cartArr = cart;
-    // console.log(cartArr)
+    let navigate = useNavigate();
+    let productsTotal = total;
+    let cartArr = cart;
     const [form , setForm]= useState({
-        // cart:cartArr,
         contact: '',
         country: '',
         firstname: '',
@@ -19,17 +20,29 @@ function Address ({cart, total}){
 
     let handleChange =(e)=> {
         setForm((preValue)=>{
-
             return {...preValue , [e.target.name]:e.target.value}
         })
     }
 
     let placeOrder=async(e)=>{
         e.preventDefault();
-        console.log(form)
         try{
-        let response = await axios.post('http://localhost:8080/order' ,{form } , {withCredentials: true});
-        console.log(response);
+        let response = await axios.post('http://localhost:8080/order' ,{
+            cart: cartArr,
+            contact: form.contact,
+            country: form.country,
+            firstname: form.firstname,
+            lastname: form.lastname,
+            address: form.address,
+            city: form.city,
+            postalcode: form.postalcode,
+            number: form.number,
+            payment: form.payment,
+            total:productsTotal
+        }  , {withCredentials: true});
+        if(response.status === 201){
+            navigate('/')
+        }
         }catch(err){
             console.log(err)
         }
@@ -69,7 +82,7 @@ function Address ({cart, total}){
                 <div className="md:flex md:justify-between">
                         <p className=" flex justify-between md:justify-start  md:gap-2 items-center">
                             <span className="text-[20px]">Total</span>
-                            <span className="font-bold text-[20px]">${total}</span>
+                            <span className="font-bold text-[20px]">${productsTotal}</span>
                         </p>
                         <button onClick={placeOrder} className="w-full md:w-auto md:px-10 my-3 bg-black py-2 rounded-full text-white text-[16px]" >Place Order</button>
                 </div>

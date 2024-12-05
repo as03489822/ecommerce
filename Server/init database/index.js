@@ -10,7 +10,7 @@ main().then(console.log('database connected'))
 .catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/E-Commerce');
+  await mongoose.connect('mongodb+srv://as03489822:prWMeyMYkoRMJjK8@cluster0.le0hn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
 }
 
