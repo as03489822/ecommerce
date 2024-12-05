@@ -16,8 +16,8 @@ console.log()
 const app = express();
 
 app.use(cors({
-  origin: 'https://ecommerce-elz5.vercel.app/',  
-  credentials: true  // Allow credentials (cookies, authorization headers)
+  origin: 'https://ecommerce-elz5.vercel.app',  
+  credentials: true  
 }));
 app.use(express.json());
 app.use(cookieParser())
