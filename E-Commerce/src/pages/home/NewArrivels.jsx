@@ -8,7 +8,7 @@ export default function NewArrivels(){
     let navigate = useNavigate();
     let [products, setProducts] = useState([]);
     let  fetchData = async() => {    
-        const response =await axios.get('https://ecommerce-rouge-eight.vercel.app/products');
+        const response =await axios.get('https://ecommerce-alpha-ten-44.vercel.app/products');
          setProducts(response.data)
     }
     useEffect(() =>{
