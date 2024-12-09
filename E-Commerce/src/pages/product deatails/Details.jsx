@@ -52,7 +52,7 @@ function Details(){
     }, [id]);
 
     let fetchData =async () => {
-        const response =await axios.get(`https://ecommerce-rouge-eight.vercel.app/${id}`);
+        const response =await axios.get(`https://ecommerce-alpha-ten-44.vercel.app/${id}`);
         setDetails(response.data)
     }
     let men =details.title && details.title.toLowerCase().includes('men');
@@ -81,7 +81,7 @@ function Details(){
                 selectedColor:selectedColor,
                 count : counter,
             };
-            let response =  await axios.post(`https://ecommerce-rouge-eight.vercel.app/cart`, newItem , { withCredentials: true })
+            let response =  await axios.post(`https://ecommerce-alpha-ten-44.vercel.app/cart`, newItem , { withCredentials: true })
             console.log(response.data)
             toast.success("product saved to cart")
             setCheck([false, false, false])
