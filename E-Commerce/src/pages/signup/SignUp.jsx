@@ -27,7 +27,7 @@ import { useState } from "react"
         try{
             e.preventDefault();
             console.log(form)
-            const response = await axios.post(`https://ecommerce-rouge-eight.vercel.app/signup`, form ,{withCredentials:true});
+            const response = await axios.post(`https://ecommerce-alpha-ten-44.vercel.app/signup`, form ,{withCredentials:true});
             setSuccess(response.data.message)
             setForm({
                 username:'',
