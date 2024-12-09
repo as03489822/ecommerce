@@ -27,7 +27,7 @@ function Address ({cart, total}){
     let placeOrder=async(e)=>{
         e.preventDefault();
         try{
-        let response = await axios.post('https://ecommerce-rouge-eight.vercel.app/order' ,{
+        let response = await axios.post('https://ecommerce-alpha-ten-44.vercel.app/order' ,{
             cart: cartArr,
             contact: form.contact,
             country: form.country,
