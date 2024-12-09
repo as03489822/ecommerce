@@ -148,7 +148,7 @@ app.post('/login' , async(req , res)=>{
 app.post('/logout', async(req , res)=>{
   res.clearCookie('token', {
     httpOnly: true,
-    secure: 'key',
+    secure: process.env.COOKIE_SECURE,
     sameSite:'strict'
   })
   res.json({ message :' account logout'})
