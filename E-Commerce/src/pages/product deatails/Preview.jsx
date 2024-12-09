@@ -29,7 +29,7 @@ export default function Preview({id, reviews, fetchReviews, men}){
     let handleSubmit =async(event)=>{
         event.preventDefault();
         try {
-            await axios.post(`https://ecommerce-rouge-eight.vercel.app/review`, formData);
+            await axios.post(`https://ecommerce-alpha-ten-44.vercel.app/review`, formData);
             setFormData({
                 username: '',
                 rating: '',
@@ -45,7 +45,7 @@ export default function Preview({id, reviews, fetchReviews, men}){
     }
 
     let  fetchData = async() => {    
-        const response =await axios.get('https://ecommerce-rouge-eight.vercel.app/products');
+        const response =await axios.get('https://ecommerce-alpha-ten-44.vercel.app/products');
          setProducts(response.data)
     }
     useEffect(() =>{
