@@ -16,7 +16,7 @@ console.log()
 const app = express();
 
 app.use(cors({
-  origin: 'https://ecommerce-elz5.vercel.app',  
+  origin: 'https://ecommerce-elz5.vercel.app'
 }));
 app.use(express.json());
 app.use(cookieParser())
