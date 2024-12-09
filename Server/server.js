@@ -13,17 +13,14 @@ const cookieParser = require('cookie-parser');
 const authenticate = require('./authenticateToken.js');
 
 
-const app = express(
- {
+const app = express();
+
+app.use(cors(
+  {
     origin:"https://ecommerce-elz5.vercel.app",
     Credential:true,
   }
-);
-
-app.use(cors());
-// {
-//   origin: 'https://ecommerce-elz5.vercel.app'
-// }
+));
 app.use(express.json());
 app.use(cookieParser())
 
