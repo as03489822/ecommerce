@@ -43,7 +43,7 @@ export default function SideBar({filtered ,tog}){
     let handleFormSubmit = async(e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://ecommerce-rouge-eight.vercel.app/filter', {
+            const response = await axios.post('https://ecommerce-alpha-ten-44.vercel.app/filter', {
                 minPrice: values[0],  // From your slider state
                 maxPrice: values[1],
             });
