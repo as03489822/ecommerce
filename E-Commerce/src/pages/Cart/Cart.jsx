@@ -33,7 +33,7 @@ export default function Cart(){
     useEffect(()=>{
         async function fetchData(){
             try{
-                const response =await axios.get("https://ecommerce-rouge-eight.vercel.app/cart" ,{ withCredentials: true }) 
+                const response =await axios.get("https://ecommerce-alpha-ten-44.vercel.app/cart" ,{ withCredentials: true }) 
                 if(response){
                     setCart(response.data)
                 }else{
