@@ -13,7 +13,7 @@ function Shop() {
     let [products, setProducts] = useState([]);
     useEffect(() =>{
         async function fetchData() {    
-            const response =await axios.get('https://ecommerce-rouge-eight.vercel.app/products');
+            const response =await axios.get('https://ecommerce-alpha-ten-44.vercel.app/products');
              setProducts(response.data)
         }fetchData()
     }, []);  
