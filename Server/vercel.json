@@ -13,7 +13,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "/E-Commerce/$1"
+        "dest": "/client/build/$1"
       }
     ]
   }
