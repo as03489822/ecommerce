@@ -30,6 +30,7 @@ async function main() {
  
 app.get('/products'  , async(req , res) => {
   let products = await Product.find();
+  return res.send(products)
   res.json(products)
 })
 
