@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
         return res.status(401).json({message:'you need to login first' , path:'/login'})
     }
     try{
-        let decode = jwt.verify(token , 'key')
+        let decode = jwt.verify(token , process.env.JWT_SECURE)
         req.user = decode;
         next()
     }catch(err){res.json(err)}

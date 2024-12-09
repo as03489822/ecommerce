@@ -108,10 +108,10 @@ app.post('/signup' , async(req , res) =>{
     })
     await newUser.save();
 
-    let token = jwt.sign({id:newUser._id , email:newUser.email} , 'key' , {expiresIn : '1h'});
+    let token = jwt.sign({id:newUser._id , email:newUser.email} , process.env.JWT_SECURE , {expiresIn : '1h'});
     res.cookie('token', token, {
     httpOnly:true,
-    secure:'key',
+    secure:process.env.COOKIE_SECURE,
     maxAge:3600000      
     })
     console.log(res.cookie.token)
@@ -135,10 +135,10 @@ app.post('/login' , async(req , res)=>{
       return res.status(401).json({message:'password is incorrect', type:'password' })
     }
 
-    let token = jwt.sign({id:user._id, email: user.email} , 'key' , {expiresIn : '1h'});
+    let token = jwt.sign({id:user._id, email: user.email} , process.env.JWT_SECURE , {expiresIn : '1h'});
     res.cookie('token', token, {
       httpOnly:true,
-      secure: 'key',
+      secure: process.env.COOKIE_SECURE,
     sameSite: 'strict',
       maxAge: 3600000
     })
