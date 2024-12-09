@@ -23,7 +23,7 @@ export default function Cart(){
     }
 
     const removeProduct =async (id) => {
-        let response = await axios.delete(`https://ecommerce-rouge-eight.vercel.app/${id}`);
+        let response = await axios.delete(`https://ecommerce-alpha-ten-44.vercel.app/${id}`);
         let data =cart.filter((_ , crt) => crt.id === id);
         setCart(data)
         console.log(response)
