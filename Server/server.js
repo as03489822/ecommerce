@@ -16,7 +16,7 @@ const authenticate = require('./authenticateToken.js');
 const app = express();
 app.use(cors(
   {
-    origin: 'https://ecommerce-elz5.vercel.app', 
+    origin: '*', 
     Credential:true,
   }
 ));
